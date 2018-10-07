@@ -1,0 +1,10 @@
+language: python
+cache: pip
+python:
+  - "3.5"
+  - "3.6"
+script:
+  - python setup.py test
+  - python setup.py install
+  - python -c "import klocmod; print(klocmod.__version__)"
+  - python setup.py bdist_wheel

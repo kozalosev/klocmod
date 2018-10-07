@@ -1,0 +1,17 @@
+{
+  "ru": {
+    "color": "цвет",
+    "mood": "настроение"
+  },
+  "en": {
+    "color": "colour",
+    "mood": "mood"
+  },
+  "en-US": {
+    "color": "color"
+  },
+  "fr-CA": {
+    "color": "couleur",
+    "mood": "l'humeur"
+  }
+}
