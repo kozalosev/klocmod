@@ -3,3 +3,4 @@ versioneer==0.18
 setuptools==40.1.0
 wheel==0.31.1
 Sphinx==1.7.9
+sphinx_rtd_theme==0.4.2
