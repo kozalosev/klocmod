@@ -84,8 +84,7 @@ import logging
 import json
 import configparser
 from typing import *
-from os import PathLike
-from pathlib import Path
+from pathlib import PurePath, Path
 
 from .internals import swap_keys, check_missing_non_regional_languages
 from ._version import get_versions
@@ -195,7 +194,7 @@ class LocalizationsContainer:
                                                           LanguageDictionary(default_lang))
 
     @classmethod
-    def from_file(cls, path: Union[PathLike, str], default_lang: str = 'en') -> 'LocalizationsContainer':
+    def from_file(cls, path: Union[PurePath, str], default_lang: str = 'en') -> 'LocalizationsContainer':
         """
         A factory method that reads a given file and returns an instance of the :py:class:`LocalizationsContainer`
         class.
@@ -295,7 +294,7 @@ class InvalidLocalizationFileError(Exception):
     :param nested_exc: another exception that caused this one, if present
     """
 
-    def __init__(self, message: str, file_path: Union[str, PathLike], nested_exc: Exception = None) -> None:
+    def __init__(self, message: str, file_path: Union[PurePath, str], nested_exc: Exception = None) -> None:
         super().__init__(message)
         self._file_path = Path(file_path)
         self._nested_exc = nested_exc
