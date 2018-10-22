@@ -6,7 +6,20 @@ def load_file(filename: str) -> LocalizationsContainer:
     return LocalizationsContainer.from_file("tests/" + filename, default_lang='ru')
 
 
-@pytest.fixture(params=['language-phrases.json', 'phrase-languages.json', 'language-phrases.ini'])
+def yaml_module_exists() -> bool:
+    try:
+        import yaml
+    except ImportError:
+        return False
+    return True
+
+
+skipif_no_yaml = pytest.mark.skipif(not yaml_module_exists(), reason="PyYAML is not installed")
+
+
+@pytest.fixture(params=['language-phrases.json', 'phrase-languages.json', 'language-phrases.ini',
+                        pytest.param('language-phrases.yml', marks=skipif_no_yaml),
+                        pytest.param('phrase-languages.yaml', marks=skipif_no_yaml)])
 def localization(request, caplog) -> LocalizationsContainer:
     lc = load_file(request.param)
     assert "The 'fr-ca' key is found, but 'fr' is missing!" in caplog.text

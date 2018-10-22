@@ -30,6 +30,9 @@ setup(
     packages=find_packages(),
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
+    extras_require={
+        'YAML': ['PyYAML']
+    },
     command_options={
         'build_sphinx': {
             'project': ('setup.py', project),

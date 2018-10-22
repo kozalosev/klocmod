@@ -220,6 +220,12 @@ class LocalizationsContainer:
                     raise InvalidLocalizationFileError("Invalid INI file.", path.name, err)
                 dct = {section: dict(parser[section]) for section in parser.sections()}
                 dct[default_lang] = dict(parser[parser.default_section])
+            elif path.suffix in (".yml", ".yaml"):
+                import yaml    # extra dependency
+                try:
+                    dct = yaml.safe_load(f)
+                except yaml.YAMLError as err:
+                    raise InvalidLocalizationFileError("Invalid YAML file.", path.name, err)
             else:
                 raise InvalidLocalizationFileError("Not supported file type: " + path.suffix, path.name)
         try:
