@@ -7,9 +7,9 @@ klocmod -- Kozalo's Localization Module
 [![Documentation Status](https://readthedocs.org/projects/klocmod/badge/?version=latest)](https://klocmod.readthedocs.io/en/latest/?badge=latest)
 
 This module provides a very simple, suboptimal way for localizing your scripts, bots or applications. The advantage is
-its simplicity: to supply some sets of different string literals for different languages, you just need a simple JSON or
-INI file (or even a dict) fed to the library. After that, the only thing you should take care of is to get an instance
-of the dictionary for a specific language and extract messages from it by key values.
+its simplicity: to supply some sets of different string literals for different languages, you just need a simple JSON,
+YAML or INI file (or even a dict) fed to the library. After that, the only thing you should take care of is to get an
+instance of the dictionary for a specific language and extract messages from it by key values.
 
 All you mostly want is the `LocalizationsContainer` class. In particular, its static method 
 `LocalizationsContainer.from_file()` that reads a localization file and returns an instance of the factory. The factory
@@ -17,11 +17,22 @@ is supposed to produce instances of the `LanguageDictionary` class. Most likely,
 subclass -- the `SpecificLanguageDictionary` class (the base class is only used as a fallback that returns passed key
 values back).
 
+
+Installation
+------------
+
+```bash
+# basic installation
+pip install klocmod
+# or with YAML files support enabled
+pip install klocmod[YAML]
+```
+
+
 Examples of localization files
 ------------------------------
 
 ### JSON (language first)
-
 
 ```json
 {
@@ -61,6 +72,28 @@ no = no
 [ru-RU]
 yes = да
 no = нет
+```
+
+### YAML
+
+Requires an extra dependency: *PyYAML*.
+
+```yaml
+# language first
+en:
+  yes: yes
+  no: no
+ru-RU:
+  yes: да
+  no: нет
+---
+# phrase first
+yes:
+  en: yes
+  ru-RU: да
+no:
+  en: no
+  ru-RU: нет
 ```
 
 

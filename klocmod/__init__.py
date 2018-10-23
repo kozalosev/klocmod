@@ -2,8 +2,8 @@
 *Screw you, gettext! I don't wanna bother of compiling strings into binary files!*
 
 This module provides a very simple, suboptimal way for localizing your scripts, bots or applications. The advantage is
-its simplicity: to supply some sets of different string literals for different languages, you just need a simple JSON
-or INI file (or even a dict) fed to the library. After that, the only thing you should take care of is to get an
+its simplicity: to supply some sets of different string literals for different languages, you just need a simple JSON,
+YAML or INI file (or even a dict) fed to the library. After that, the only thing you should take care of is to get an
 instance of the dictionary for a specific language and extract messages from it by key values.
 
 All you mostly want is the :py:class:`LocalizationsContainer` class. In particular, its static method
@@ -11,6 +11,18 @@ All you mostly want is the :py:class:`LocalizationsContainer` class. In particul
 factory is supposed to produce instances of the :py:class:`LanguageDictionary` class. Most likely, you will encounter
 instances of its subclass -- the :py:class:`SpecificLanguageDictionary` class (the base class is only used as a fallback
 that returns passed key values back).
+
+
+Installation
+------------
+
+.. code-block:: bash
+
+    # basic installation
+    pip install klocmod
+    # or with YAML files support enabled
+    pip install klocmod[YAML]
+
 
 Examples of localization files
 ==============================
@@ -59,6 +71,29 @@ INI
     [ru-RU]
     yes = да
     no = нет
+
+YAML
+----
+
+Requires an extra dependency: `PyYAML`.
+
+.. code-block:: yaml
+
+    # language first
+    en:
+      yes: yes
+      no: no
+    ru-RU:
+      yes: да
+      no: нет
+    ---
+    # phrase first
+    yes:
+      en: yes
+      ru-RU: да
+    no:
+      en: no
+      ru-RU: нет
 
 
 Code example
@@ -199,7 +234,7 @@ class LocalizationsContainer:
         A factory method that reads a given file and returns an instance of the :py:class:`LocalizationsContainer`
         class.
 
-        Currently supported formats are **JSON** and **INI**.
+        Currently supported formats are **JSON**, **INI** and **YAML** (if `PyYAML` is installed).
 
         :param path: a path to the localization file
         :param default_lang: what language key will be used as a fallback
