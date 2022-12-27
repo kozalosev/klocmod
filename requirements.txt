@@ -1,7 +1,7 @@
 PyYAML==5.1
 pytest==3.7.2
 versioneer==0.18
-setuptools==40.1.0
+setuptools==65.5.1
 wheel==0.31.1
 Sphinx==1.7.9
 sphinx_rtd_theme==0.4.2
