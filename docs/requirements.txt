@@ -1,0 +1,2 @@
+sphinx_rtd_theme==1.2.0
+dunamai==1.15.0

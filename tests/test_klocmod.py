@@ -57,8 +57,9 @@ def test_key_as_fallback_value(localization: LocalizationsContainer):
                                               ('invalid-format.json', 'Invalid JSON file.'),
                                               ('invalid.ini', 'Invalid INI file.')])
 def test_exceptions_with_other_invalid_files(filename, message):
-    with pytest.raises(InvalidLocalizationFileError, message=message):
+    with pytest.raises(InvalidLocalizationFileError):
         load_file(filename)
+        pytest.fail(message)
 
 
 def test_non_existing_file():

@@ -122,10 +122,8 @@ from typing import *
 from pathlib import PurePath, Path
 
 from .internals import swap_keys, check_missing_non_regional_languages
-from ._version import get_versions
-__version__ = get_versions()['version']
-del get_versions
 
+__version__ = "0.0.0"
 __all__ = ['LanguageDictionary', 'SpecificLanguageDictionary', 'LocalizationsContainer', 'InvalidLocalizationFileError']
 _logger = logging.getLogger(__name__)
 

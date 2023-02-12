@@ -1,0 +1,43 @@
+name: Publish to PyPI
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+      - name: Install poetry
+        run: pipx install poetry && poetry self add "poetry-dynamic-versioning[plugin]"
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: 'poetry'
+
+      - run: echo "🖥️ The workflow is now ready to build and deploy your distribution."
+
+      - name: Build a distribution
+        run: make build
+
+      - name: Install the built distribution locally and check its version
+        run: >
+          [ ! -f dist/klocmod-0.0.0-py3-none-any.whl ] &&
+            pip install dist/klocmod-*-py3-none-any.whl &&
+            python -c "import klocmod; exit(0 if klocmod.__version__ != '0.0.0' else -1)"
+
+      - name: Publish the distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
