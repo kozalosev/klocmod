@@ -27,13 +27,40 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to build and deploy your distribution."
 
       - name: Build a distribution
-        run: make build
+        run: poetry build
 
-      - name: Install the built distribution locally and check its version
+      - name: Set PACKAGE_VERSION
+        run: echo "PACKAGE_VERSION=$(poetry version -s)" >> $GITHUB_ENV
+
+      - name: Set SDIST_VERSION
+        run: echo "SDIST_VERSION=$(tar -axf dist/klocmod-${{ env.PACKAGE_VERSION }}.tar.gz klocmod-${{ env.PACKAGE_VERSION }}/klocmod/__init__.py -O | grep __version__ | cut -d' ' -f3)" >> $GITHUB_ENV
+
+      - name: Check the version variables
         run: >
-          [ ! -f dist/klocmod-0.0.0-py3-none-any.whl ] &&
-            pip install dist/klocmod-*-py3-none-any.whl &&
-            python -c "import klocmod; exit(0 if klocmod.__version__ != '0.0.0' else -1)"
+          [ "${{ env.PACKAGE_VERSION }}" != "0.0.0" ] &&
+          echo "PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}" &&
+          [ "${{ env.SDIST_VERSION }}" != "0.0.0" ] &&
+          echo "SDIST_VERSION: ${{ env.SDIST_VERSION }}" &&
+          [ ! -f "dist/klocmod-0.0.0-py3-none-any.whl" ] &&
+          echo "OK"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: klocmod-wheel
+          path: dist/klocmod-${{ env.PACKAGE_VERSION }}-py3-none-any.whl
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v3
+        with:
+          name: klocmod-sdist
+          path: dist/klocmod-${{ env.PACKAGE_VERSION }}.tar.gz
+          if-no-files-found: error
+
+      - name: Install the built distribution locally and check its internal version
+        run: >
+            pip install dist/klocmod-${{ env.PACKAGE_VERSION }}-py3-none-any.whl &&
+            cd / &&
+            python -c "import klocmod; print(klocmod.__version__); print(klocmod.__file__); exit(0 if klocmod.__version__ != '0.0.0' else -1)"
+        # we MUST change directory to get into the installed module
 
       - name: Publish the distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
