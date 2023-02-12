@@ -3,7 +3,7 @@ klocmod -- Kozalo's Localization Module
 
 *Screw you, gettext! I don't wanna bother of compiling strings into binary files!*
 
-[![Build Status](https://travis-ci.org/kozalosev/klocmod.svg?branch=master)](https://travis-ci.org/kozalosev/klocmod)
+[![Build Status](https://github.com/kozalosev/klocmod/actions/workflows/ci-build.yml/badge.svg)](https://github.com/kozalosev/klocmod/actions/workflows/ci-build.yml)
 [![Documentation Status](https://readthedocs.org/projects/klocmod/badge/?version=latest)](https://klocmod.readthedocs.io/en/latest/?badge=latest)
 
 This module provides a very simple, suboptimal way for localizing your scripts, bots or applications. The advantage is

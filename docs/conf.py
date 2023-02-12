@@ -6,15 +6,16 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
+import dunamai as _dunamai
 
 # -- Project information -----------------------------------------------------
 
 project = 'klocmod'
-copyright = 'Kozalo.Ru, 2018'
+copyright = 'Kozalo.Blog, 2018-2023'
 author = 'Leonid Kozarin'
 
 # The short X.Y version
-version = ''
+version = _dunamai.get_version(project, third_choice=_dunamai.Version.from_git).serialize()
 # The full version, including alpha/beta/rc tags
 release = ''
 
@@ -42,7 +43,7 @@ master_doc = 'index'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
