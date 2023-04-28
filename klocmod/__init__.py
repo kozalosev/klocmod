@@ -161,6 +161,9 @@ class LanguageDictionary:
             raise TypeError("Incomparable types!")
         return self._name == other._name
 
+    def __hash__(self) -> int:
+        return hash(self.name)
+
 
 class SpecificLanguageDictionary(LanguageDictionary):
     """
@@ -201,7 +204,12 @@ class SpecificLanguageDictionary(LanguageDictionary):
             raise TypeError("Incomparable types!")
         if not isinstance(other, SpecificLanguageDictionary):
             return False
-        return self._primary_dict == other._primary_dict and self._spare_lang_dict == other._spare_lang_dict
+        return super().__eq__(other) \
+            and self._primary_dict == other._primary_dict \
+            and self._spare_lang_dict == other._spare_lang_dict
+
+    def __hash__(self) -> int:
+        return hash((self.name, tuple(sorted(self._primary_dict.items())), self._spare_lang_dict))
 
 
 class LocalizationsContainer:
