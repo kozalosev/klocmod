@@ -65,3 +65,11 @@ def test_exceptions_with_other_invalid_files(filename, message):
 def test_non_existing_file():
     with pytest.raises(FileNotFoundError):
         load_file("foo.bar")
+
+
+def test_iter(localization: LocalizationsContainer):
+    lst = {lang: dct for lang, dct in localization}
+    assert 'en' in lst
+    assert 'ru' in lst
+    assert 'mood' in lst['en']
+    assert 'color' in lst['ru']
