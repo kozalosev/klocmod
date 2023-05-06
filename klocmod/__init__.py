@@ -331,7 +331,7 @@ class LocalizationsContainer:
             raise TypeError("Incomparable types!")
         return self._primary_dict == other._primary_dict and self._spare_lang_dct == other._spare_lang_dct
 
-    def __iter__(self) -> Iterable:
+    def __iter__(self) -> Iterator:
         return iter(self._primary_dict.items())
     
 
